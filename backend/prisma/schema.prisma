@@ -7,13 +7,54 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url = "file:./db.sqlite3"
+  url      = "file:./db.sqlite3"
 }
 
 model User {
-  id        String   @id @unique @default(cuid())
-  name      String
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
+  id         String   @id @unique @default(cuid())
+  name       String
+  username   String   @unique
+  password   String
+  profileUrl String?
+  createdAt  DateTime @default(now())
+  threads    Thread[]
+  likes      Like[]
+  replies    Reply[]
+}
+
+model Thread {
+  id          String       @id @unique @default(cuid())
+  author      User         @relation(fields: [authorId], references: [id])
+  authorId    String
+  content     String
+  createdAt   String
+  likes       Like[]
+  attachments Attachment[]
+}
+
+model Like {
+  id        String  @id @unique @default(cuid())
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  String
+  thread    Thread  @relation(fields: [threadId], references: [id])
+  threadId  String
+  replies   Reply?  @relation(fields: [repliesId], references: [id])
+  repliesId String?
+}
+
+model Reply {
+  id        String @id @unique @default(cuid())
+  author    User   @relation(fields: [authorId], references: [id])
+  authorId  String
+  content   String
+  createdAt String
+  likes     Like[]
+}
+
+model Attachment {
+  id       String  @id @unique @default(cuid())
+  thread   Thread? @relation(fields: [threadId], references: [id])
+  threadId String?
+  url      String
+  type     String // image and video only
 }
