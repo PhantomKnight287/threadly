@@ -9,9 +9,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './resources/auth/auth.module';
 import { PrismaService } from './services/prisma/prisma.service';
 import { UserMiddleware } from './resources/auth/middleware/user.middleware';
+import { ThreadModule } from './resources/thread/thread.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, ThreadModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
   exports: [PrismaService],
