@@ -1,5 +1,5 @@
-import { Link } from 'expo-router';
-import React, { useState } from 'react';
+import { Link, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { TouchableOpacity } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -11,9 +11,12 @@ import Text from '@/components/shared/text';
 import View from '@/components/shared/view';
 import { API_URL } from '@/constants';
 import { ErrorMessageExtractor } from '@/helpers/error';
+import useHydrateUser from '@/hooks/useHydrateUser';
 import useSetOptions from '@/hooks/useSetOptions';
+import useUser from '@/state/user';
 import { APIResponse } from '@/types';
 import { Entypo } from '@expo/vector-icons';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 interface RegisterForm {
     name: string;
@@ -24,6 +27,10 @@ interface RegisterForm {
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const { user, setUser } = useUser();
+    const { setItem } = useAsyncStorage('token');
+    const router = useRouter();
+    useHydrateUser({ redirectIfNoToken: false });
     const {
         handleSubmit,
         formState: { errors },
@@ -54,7 +61,9 @@ function Register() {
             if (!response.ok || json.message) {
                 throw new Error(ErrorMessageExtractor(json));
             }
-            console.log(json);
+            await setItem(json.token);
+            setUser(json.user);
+            router.replace(`/`);
         } catch (error) {
             Toast.show({
                 type: 'error',
@@ -65,6 +74,10 @@ function Register() {
             setLoading(false);
         }
     };
+    useEffect(() => {
+        if (user.id) return void router.replace(`/`);
+    }, []);
+
     return (
         <View className="flex-1">
             <View className="my-auto items-center justify-center">
