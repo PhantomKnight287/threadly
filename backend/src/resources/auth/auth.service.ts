@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/services/prisma/prisma.service';
-import { RegisterDTO } from './dto/register.dto';
+import { User } from '@prisma/client';
 import { compare, hash } from 'bcrypt';
 import { sign, verify } from 'jsonwebtoken';
+import { PrismaService } from 'src/services/prisma/prisma.service';
 import { LoginDTO } from './dto/login.dto';
-import { User } from '@prisma/client';
+import { RegisterDTO } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -54,6 +54,7 @@ export class AuthService {
         name: true,
         username: true,
         password: true,
+        profileUrl: true,
       },
     });
 
@@ -90,9 +91,15 @@ export class AuthService {
       throw Error('Invalid Token');
     }
   }
-  async hydrateUser(id: string): Promise<User> {
-    const user: User = await this.p.user.findFirstOrThrow({
+  async hydrateUser(id: string) {
+    const user = await this.p.user.findFirstOrThrow({
       where: { id },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        profileUrl: true,
+      },
     });
     return user;
   }
