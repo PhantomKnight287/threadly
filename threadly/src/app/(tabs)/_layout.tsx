@@ -1,6 +1,8 @@
 import { Redirect, Tabs } from 'expo-router';
 
 import GradientLogo from '@/components/shared/gradient.logo';
+import Text from '@/components/shared/text';
+import { WorkSans } from '@/constants/fonts';
 import useUser from '@/state/user';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 
@@ -59,6 +61,17 @@ export default function TabsLayout() {
                 name="create"
                 options={{
                     title: '',
+                    headerTitleAlign: 'left',
+                    headerTitle: () => (
+                        <Text
+                            className="text-xl"
+                            style={{
+                                fontFamily: WorkSans.WorkSans_500Medium,
+                            }}
+                        >
+                            New Thread
+                        </Text>
+                    ),
                     tabBarIcon: () => {
                         return (
                             <Ionicons
