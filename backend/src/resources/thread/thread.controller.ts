@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ThreadService } from './thread.service';
+import { BodyWithUser } from '../types/body';
 import { CreateThread } from './dto/create-thread.dto';
-import { BodyWithUser } from 'src/types/body';
+import { ThreadService } from './thread.service';
 
 @Controller('thread')
 export class ThreadController {
