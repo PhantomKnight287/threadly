@@ -33,6 +33,12 @@ function RootLayout() {
                         title: 'Hello World',
                     }}
                 />
+                <Stack.Screen
+                    name="(tabs)"
+                    options={{
+                        headerShown: false,
+                    }}
+                />
             </Stack>
             <Toast />
         </View>
