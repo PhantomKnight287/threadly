@@ -1,4 +1,3 @@
-export type APIResponse<T> = {
+export type APIResponse<T> = T & {
     message?: string | string[];
-    data?: T;
 };
