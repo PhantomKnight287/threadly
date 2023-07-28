@@ -7,9 +7,9 @@ import {
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './resources/auth/auth.module';
-import { PrismaService } from './services/prisma/prisma.service';
 import { UserMiddleware } from './resources/auth/middleware/user.middleware';
 import { ThreadModule } from './resources/thread/thread.module';
+import { PrismaService } from './services/prisma/prisma.service';
 
 @Module({
   imports: [AuthModule, ThreadModule],
@@ -22,7 +22,7 @@ export class AppModule implements NestModule {
     consumer
       .apply(UserMiddleware)
       .exclude({
-        method: RequestMethod.GET,
+        method: RequestMethod.POST,
         path: 'auth/(.*)',
       })
       .forRoutes('*');
