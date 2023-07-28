@@ -31,9 +31,7 @@ export default function Page() {
                     </Text>
                 </Link>
                 <Link href="(tabs)">
-                    <Text>
-                        Hello
-                    </Text>
+                    <Text>Hello</Text>
                 </Link>
             </View>
         </View>
