@@ -21,6 +21,7 @@ interface InputProps {
     labelProps?: TextProps;
     rightIcon?: ReactNode;
     noLabel?: boolean;
+    hideBorder?: boolean;
 }
 
 export default function Input(props: InputProps) {
@@ -47,9 +48,10 @@ export default function Input(props: InputProps) {
                     gap: 10,
                     alignItems: 'center',
                     width: '100%',
-                    borderColor: '#989898',
+                    borderColor:
+                        props.hideBorder === false ? '#989898' : undefined,
                     borderRadius: 5,
-                    borderWidth: 1,
+                    borderWidth: props.hideBorder === false ? 1 : 0,
                     paddingRight: props.rightIcon ? 0 : 10,
                 }}
             >
