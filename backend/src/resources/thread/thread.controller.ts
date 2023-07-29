@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { BodyWithUser } from '../types/body';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { BodyWithUser } from '../../types/body';
 import { CreateThread } from './dto/create-thread.dto';
 import { ThreadService } from './thread.service';
 
-@Controller('thread')
+@Controller('threads')
 export class ThreadController {
   constructor(private readonly service: ThreadService) {}
 
@@ -20,5 +20,9 @@ export class ThreadController {
   @Get('user/:id')
   async getThreadsByUser(@Param('id') id: string) {
     return await this.service.getThreads(id);
+  }
+  @Get()
+  async getThreads(@Query('take') take?: string) {
+    return await this.service.listThreads(take);
   }
 }
