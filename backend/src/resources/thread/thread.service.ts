@@ -90,4 +90,32 @@ export class ThreadService {
     }
     return response;
   }
+  async listThreads(take?: string) {
+    const toTake = Number.isNaN(Number(take)) ? 10 : Number(take);
+    const threads = await this.p.thread.findMany({
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        edited: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            name: true,
+            profileUrl: true,
+          },
+        },
+      },
+      take: toTake,
+      skip: toTake > 10 ? toTake - 10 : 0,
+    });
+    const response = {
+      threads,
+    };
+    if (threads.length === 10) {
+      response['next'] = toTake + 10;
+    }
+    return response;
+  }
 }
