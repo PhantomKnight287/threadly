@@ -5,7 +5,11 @@ import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import useLoadedAssets from '../hooks/useLoadAssets';
+
+export const queryClient = new QueryClient();
 
 preventAutoHideAsync();
 function RootLayout() {
@@ -17,32 +21,36 @@ function RootLayout() {
     }, [loaded]);
     if (!loaded) return null;
     return (
-        <View
-            style={{ flex: 1, backgroundColor: 'transparent' }}
-            onLayout={onLayoutRootView}
-        >
-            <StatusBar style="light" />
-            <Stack
-                screenOptions={{
-                    animation: 'slide_from_right',
-                }}
+        <QueryClientProvider client={queryClient}>
+            <View
+                style={{ flex: 1, backgroundColor: 'transparent' }}
+                onLayout={onLayoutRootView}
             >
-                <Stack.Screen
-                    name="index"
-                    options={{
-                        title: 'Hello World',
+                <StatusBar style="light" />
+                <Stack
+                    screenOptions={{
+                        animation: 'slide_from_right',
                     }}
-                />
-                <Stack.Screen
-                    name="(tabs)"
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-            </Stack>
-            <Toast />
-        </View>
+                >
+                    <Stack.Screen
+                        name="index"
+                        options={{
+                            title: 'Hello World',
+                        }}
+                    />
+                    <Stack.Screen
+                        name="(tabs)"
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                </Stack>
+                <Toast />
+            </View>
+        </QueryClientProvider>
     );
 }
 
 export default RootLayout;
+
+export { ErrorBoundary } from 'expo-router';
