@@ -20,11 +20,14 @@ export default function Base() {
             queryKey: ['threads'],
             queryFn: async ({ pageParam = 10 }) => {
                 const token = await getToken();
-                const res = await fetch(`${API_URL}/threads`, {
-                    headers: {
-                        authorization: `Bearer ${token}`,
+                const res = await fetch(
+                    `${API_URL}/threads?take=${pageParam}`,
+                    {
+                        headers: {
+                            authorization: `Bearer ${token}`,
+                        },
                     },
-                });
+                );
                 return await res.json();
             },
             getNextPageParam: (lastPage) => lastPage?.next,
