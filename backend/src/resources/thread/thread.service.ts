@@ -109,6 +109,11 @@ export class ThreadService {
       },
       take: toTake,
       skip: toTake > 10 ? toTake - 10 : 0,
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
     });
     const response = {
       threads,
