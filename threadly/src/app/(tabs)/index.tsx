@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 
+import ThreadCard from '@/components/shared/card';
 import Text from '@/components/shared/text';
 import View from '@/components/shared/view';
 import { API_URL } from '@/constants';
@@ -50,7 +51,7 @@ export default function Base() {
                                     (page) => page.threads,
                                 )}
                                 renderItem={({ item }) => (
-                                    <Text>{item.id}</Text>
+                                    <ThreadCard {...item} />
                                 )}
                                 estimatedItemSize={100}
                                 onEndReached={() => {
