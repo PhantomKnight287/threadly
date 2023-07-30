@@ -152,6 +152,9 @@ export default function Create() {
                                         autoFocus: true,
                                         multiline: true,
                                         onBlur,
+                                        style: {
+                                            fontSize: 16,
+                                        },
                                     }}
                                     labelProps={{
                                         style: {
